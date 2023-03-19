@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic)
+@import '_vars.sass'
+
 *
   margin: 0
   padding: 0
@@ -5,6 +8,7 @@
 html,
 body
   overflow: hidden
+  font-family: 'Poppins', sans-serif
   /* height: 100%; */
 
 canvas
@@ -15,3 +19,41 @@ canvas
   left: 50%
   transform: translate(-50%, 0)
   position: absolute
+
+.general-interface
+  position: absolute
+  right: 0.5rem
+  top: 0.5rem
+  background-color: $gray
+  padding: 0.5rem
+  border-radius: .5rem
+  width: 16rem
+  h3
+    color: #fff
+    text-align: center
+    margin-bottom: 0.75rem
+  ul
+    list-style: none
+    display: flex
+    justify-content: space-between
+    gap: .25rem
+    button, li
+      width: 100%
+    button
+      padding: 0.25rem
+      background-color: transparent
+      border-radius: .25rem
+      font-weight: 600
+      border: 1px solid $red
+      color: $red
+      cursor: pointer
+      &.active
+        background: $red
+        color: #fff
+  .property
+    span
+      color: $red
+    &.--color
+      margin-top: .75rem
+      .rcp
+        margin-top: 1rem

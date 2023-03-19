@@ -29,3 +29,5 @@ export type GlassState = ColorSettings & {
 export type DiscsState = ColorSettings;
 
 export type BodyState = ColorSettings;
+
+export type ColorTarget = "discs" | "body" | "glass";
