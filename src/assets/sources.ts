@@ -43,4 +43,9 @@ export const sources: ResourceItem[] = [
       "./map/nz.png",
     ],
   },
+  {
+    name: "zeroTwo",
+    type: "texture",
+    path: "./stickers/02.png",
+  },
 ];

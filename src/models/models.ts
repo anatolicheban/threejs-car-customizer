@@ -1,4 +1,7 @@
-import { CubeTexture, Group, IUniform, Texture } from "three";
+import { SvgIconTypeMap } from "@mui/material";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { ReactNode } from "react";
+import { CubeTexture, Group, IUniform, Texture, Vector3 } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 export type Canvas = HTMLElement | null;
@@ -14,6 +17,8 @@ export type SunParams = {
   azimuth: number;
 };
 
+export type GenTarget = "discs" | "body" | "glass";
+
 export type Uniforms = { [uniform in string]: IUniform<any> };
 
 export type ColorSettings = {
@@ -22,12 +27,28 @@ export type ColorSettings = {
   metalness: number;
 };
 
-export type GlassState = ColorSettings & {
-  opacity: number;
-};
+export type TargetState = { current: GenTarget };
 
+export type GlassState = ColorSettings;
+export type BodyState = ColorSettings;
 export type DiscsState = ColorSettings;
 
-export type BodyState = ColorSettings;
+export type MaterialProps = {
+  color: string;
+  roughness: number;
+  metalness: number;
+};
 
-export type ColorTarget = "discs" | "body" | "glass";
+export type NavItem = {
+  title: string;
+  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  mode: EditMode;
+};
+
+export type EditMode = "view" | "general" | "stickers";
+
+export type StickersItem = {
+  position: Vector3;
+  size: Vector3;
+  orientation: Vector3;
+};

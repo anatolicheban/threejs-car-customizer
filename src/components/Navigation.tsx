@@ -1,28 +1,43 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { navItems } from "../assets/data";
+import { EditMode } from "../models/models";
+import clsx from "clsx";
+import { ArrowCircleLeft } from "@mui/icons-material";
 
-const Navigation = () => {
+interface Props {
+  currMode: EditMode;
+  onChangeMode: (m: EditMode) => void;
+  visible: boolean;
+}
+
+const Navigation = ({ currMode, onChangeMode, visible }: Props) => {
   return (
-    <div className="navigation">
-      <Box sx={{ width: 500 }}>
-        <BottomNavigation
-          showLabels
-          // value={value}
-          // onChange={(event, newValue) => {
-          //   setValue(newValue);
-          // }}
-        >
-          <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-        </BottomNavigation>
-      </Box>
-    </div>
+    <>
+      <div className={clsx("navigation", visible ? null : "hidden")}>
+        <ul>
+          {navItems.map(({ title, icon: Icon, mode }) => (
+            <li key={title}>
+              <button
+                className={clsx(currMode === mode ? "active" : null)}
+                onClick={() => {
+                  onChangeMode(mode);
+                }}
+              >
+                <Icon className="icon" />
+                <p>{title}</p>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div
+        className={clsx("back", visible ? "hidden" : null)}
+        onClick={() => {
+          onChangeMode("view");
+        }}
+      >
+        <ArrowCircleLeft fontSize="inherit" />
+      </div>
+    </>
   );
 };
 

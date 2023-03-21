@@ -1,4 +1,4 @@
-import { Scene } from "three";
+import { AxesHelper, Scene } from "three";
 import { sources } from "../assets/sources";
 import { Canvas } from "../models/models";
 import { Camera } from "./Camera";
@@ -35,8 +35,10 @@ export class Experience {
     this.time = new Time();
     this.scene = new Scene();
 
-    this.camera = new Camera();
+    this.scene.add(new AxesHelper(10));
+
     this.resources = new Resources(sources);
+    this.camera = new Camera();
     this.world = new World();
     this.renderer = new Renderer();
 

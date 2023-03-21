@@ -7,7 +7,7 @@ import { Platform } from "./Platform";
 export class World {
   experience: Experience;
   platform: Platform;
-  lights: Lights;
+  // lights: Lights;
   car: Car;
 
   constructor() {
@@ -23,4 +23,6 @@ export class World {
         .resources.items.enviroment as Texture;
     });
   }
+
+  getCarMaterialProps() {}
 }

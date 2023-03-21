@@ -1,26 +1,47 @@
 import { useEffect, useState } from "react";
 import { colorTargets } from "../assets/data";
-import { ColorTarget } from "../models/models";
-import { ColorPicker, useColor } from "react-color-palette";
-import "react-color-palette/lib/css/styles.css";
+import { GenTarget } from "../models/models";
+import { HexColorPicker } from "react-colorful";
 import clsx from "clsx";
 import { Slider } from "@mui/material";
+import { Experience } from "../Experience/Experience";
 
-const GeneralInterface = () => {
-  const [currTarget, setCurrTarget] = useState<ColorTarget>("body");
-  const [color, setColor] = useColor("hex", "#121212");
+interface Props {
+  exp: Experience | null;
+  visible: boolean;
+}
 
-  const targetBtnHandler = (value: ColorTarget) => {
+const GeneralInterface = ({ exp, visible }: Props) => {
+  const [currTarget, setCurrTarget] = useState<GenTarget>("body");
+
+  const [color, setColor] = useState("#aabbcc");
+  const [metalness, setMetalness] = useState(0);
+  const [roughness, setRoughness] = useState(0);
+
+  const targetBtnHandler = (value: GenTarget) => {
     setCurrTarget(value);
   };
 
+  let updateMaterial = () => {
+    exp?.world.car?.setProps(currTarget, {
+      color,
+      metalness,
+      roughness,
+    });
+  };
+
   useEffect(() => {
-    console.log(color);
-    // setColor({ hex: "#5ecb44" });
-  }, []);
+    let props = exp?.world.car.getProperties(currTarget);
+
+    if (props) {
+      setColor("#" + props.color);
+      setMetalness(props.metalness);
+      setRoughness(props.roughness);
+    }
+  }, [exp, currTarget]);
 
   return (
-    <div className="general-interface">
+    <div className={clsx("general-interface", visible ? null : "hidden")}>
       <h3 className="title">General</h3>
       <ul className="targets-list">
         {colorTargets.map((item, index) => (
@@ -37,32 +58,51 @@ const GeneralInterface = () => {
         ))}
       </ul>
       <div className="property --color">
-        <span>Color</span>
-        <ColorPicker
-          width={256}
-          height={150}
+        <span>Color</span>;
+        <HexColorPicker
+          className="color-palette"
           color={color}
-          onChange={setColor}
-          hideHSV
-          hideRGB
-          dark
+          onChange={(color) => {
+            setColor(color);
+            updateMaterial();
+          }}
         />
         ;
       </div>
       <div className="property --metalness">
         <span>Metalness</span>
-        <Slider size="small" defaultValue={70} aria-label="Small" valueLabelDisplay="auto" />
+        <Slider
+          min={0}
+          max={1}
+          step={0.01}
+          size="small"
+          defaultValue={70}
+          value={metalness}
+          onChange={(e, newVal) => {
+            setMetalness(newVal as number);
+            updateMaterial();
+          }}
+          aria-label="Small"
+          valueLabelDisplay="auto"
+        />
       </div>
       <div className="property">
         <span>Roughness</span>
-        <Slider size="small" defaultValue={70} aria-label="Small" valueLabelDisplay="auto" />
+        <Slider
+          min={0}
+          max={1}
+          step={0.01}
+          size="small"
+          defaultValue={70}
+          value={roughness}
+          onChange={(e, newVal) => {
+            setRoughness(newVal as number);
+            updateMaterial();
+          }}
+          aria-label="Small"
+          valueLabelDisplay="auto"
+        />
       </div>
-      {currTarget === "glass" && (
-        <div className="property">
-          <span>Opacity</span>
-          <Slider size="small" defaultValue={70} aria-label="Small" valueLabelDisplay="auto" />
-        </div>
-      )}
     </div>
   );
 };

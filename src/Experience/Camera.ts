@@ -33,11 +33,15 @@ export class Camera {
     this.controls = new OrbitControls(this.instance, this.experience.canvas as HTMLElement);
     this.controls.enableDamping = true;
     this.controls.enablePan = false;
-    this.controls.minPolarAngle = Math.PI / 2.7;
-    this.controls.maxPolarAngle = Math.PI / 2.1;
-    this.controls.maxDistance = 18;
-    this.controls.minDistance = 3;
+    // this.controls.minPolarAngle = Math.PI / 2.7;
+    // this.controls.maxPolarAngle = Math.PI / 2.1;
+    // this.controls.maxDistance = 18;
+    // this.controls.minDistance = 3;
     this.controls.target.set(0, 0.5, 0);
+    // this.controls.autoRotate = true;
+    // this.controls.autoRotateSpeed = 0.75;
+    // this.controls.dampingFactor = 0.001;
+    this.controls.object.position.set(10, 0.5, 0);
   }
 
   update() {

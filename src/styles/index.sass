@@ -19,7 +19,44 @@ canvas
   left: 50%
   transform: translate(-50%, 0)
   position: absolute
-
+  transition: .5s all
+  &.hidden
+    bottom: -7rem
+  ul
+    background-color: $gray
+    padding: 0.5rem
+    border-radius: .5rem
+    list-style: none
+    display: flex
+    gap: .5rem
+    // li
+    button
+      border-radius: .25rem
+      background-color: transparent
+      display: flex
+      align-items: center
+      flex-direction: column
+      width: 7rem
+      padding: 0.15rem
+      border: 1px solid $red
+      cursor: pointer
+      .icon, p
+        color: $red
+      &:hover, &.active
+        background-color: $red
+        color: #fff
+        .icon, p
+          color: #fff
+.back
+  position: absolute
+  top: .75rem
+  left: 1rem
+  font-size: 3rem
+  color: $gray
+  cursor: pointer
+  transition: .5s all
+  &.hidden
+    left: -5rem
 .general-interface
   position: absolute
   right: 0.5rem
@@ -28,6 +65,9 @@ canvas
   padding: 0.5rem
   border-radius: .5rem
   width: 16rem
+  transition: .5s all
+  &.hidden
+    right: -30rem
   h3
     color: #fff
     text-align: center
@@ -53,7 +93,21 @@ canvas
   .property
     span
       color: $red
+    &.--metalness
+      margin-top: -.25rem
     &.--color
       margin-top: .75rem
-      .rcp
-        margin-top: 1rem
+      .color-palette
+        width: 100%
+        margin-top: .5rem
+  .update
+    background-color: transparent
+    border: 1px solid $red
+    padding: .5rem
+    border-radius: .5rem
+    width: 100%
+    color: $red
+    cursor: pointer
+    &:hover
+      background-color: $red
+      color: #fff
