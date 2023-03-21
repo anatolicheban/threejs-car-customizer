@@ -41,7 +41,7 @@ export class Camera {
     // this.controls.autoRotate = true;
     // this.controls.autoRotateSpeed = 0.75;
     // this.controls.dampingFactor = 0.001;
-    this.controls.object.position.set(10, 0.5, 0);
+    this.controls.object.position.set(-10, 0.5, 0);
   }
 
   update() {

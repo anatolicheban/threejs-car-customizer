@@ -46,6 +46,21 @@ export const sources: ResourceItem[] = [
   {
     name: "zeroTwo",
     type: "texture",
-    path: "./stickers/02.png",
+    path: "./stickers/02_test.png",
+  },
+  {
+    name: "twoB",
+    type: "texture",
+    path: "./stickers/2b.png",
+  },
+  {
+    name: "mikasa",
+    type: "texture",
+    path: "./stickers/mikasa.png",
+  },
+  {
+    name: "misato",
+    type: "texture",
+    path: "./stickers/misato.png",
   },
 ];

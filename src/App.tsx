@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "./components/Canvas";
 import GeneralInterface from "./components/GeneralInterface";
 import Navigation from "./components/Navigation";
+import StickersInterface from "./components/StickersInterface";
 import { Experience } from "./Experience/Experience";
 import { EditMode } from "./models/models";
 
@@ -30,6 +31,7 @@ function App() {
         }}
       />
       <GeneralInterface visible={editMode === "general"} exp={experience} />
+      <StickersInterface visible={editMode === "stickers"} />
     </>
   );
 }

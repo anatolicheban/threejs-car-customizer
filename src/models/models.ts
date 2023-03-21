@@ -1,7 +1,7 @@
 import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { ReactNode } from "react";
-import { CubeTexture, Group, IUniform, Texture, Vector3 } from "three";
+import { CubeTexture, Group, IUniform, Mesh, Texture, Vector3 } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 export type Canvas = HTMLElement | null;
@@ -47,8 +47,22 @@ export type NavItem = {
 
 export type EditMode = "view" | "general" | "stickers";
 
+export type VectorEulerCoords = { x: number; y: number; z: number };
+
 export type StickersItem = {
-  position: Vector3;
-  size: Vector3;
-  orientation: Vector3;
+  size: VectorEulerCoords;
+  orientation: VectorEulerCoords;
+  position: VectorEulerCoords;
+  texture: Texture;
+};
+
+export type SticksTarget = "leftDoor" | "rightDoor";
+export type SticksStoreItem = {
+  object: Mesh | null;
+  items: StickersItem[];
+};
+
+export type SticksNavItem = {
+  type: SticksTarget;
+  title: string;
 };
