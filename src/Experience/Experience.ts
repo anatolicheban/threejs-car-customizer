@@ -1,6 +1,6 @@
-import { AxesHelper, Scene } from "three";
+import { Scene } from "three";
 import { sources } from "../assets/sources";
-import { Canvas } from "../models/models";
+import { Canvas, ConfigData } from "../models/models";
 import { Camera } from "./Camera";
 import { Renderer } from "./Renderer";
 import { Resources } from "./Utils/Resources";
@@ -35,8 +35,6 @@ export class Experience {
     this.time = new Time();
     this.scene = new Scene();
 
-    this.scene.add(new AxesHelper(10));
-
     this.resources = new Resources(sources);
     this.camera = new Camera();
     this.world = new World();
@@ -58,5 +56,69 @@ export class Experience {
   update() {
     this.renderer.update();
     this.camera.update();
+  }
+
+  uploadConfig() {
+    let car = this.world.car;
+
+    let config: ConfigData = {
+      general: {
+        body: {
+          color: "#" + car.materials.body.color.getHexString(),
+          roughness: car.materials.body.roughness,
+          metalness: car.materials.body.metalness,
+        },
+        discs: {
+          color: "#" + car.materials.discs.color.getHexString(),
+          roughness: car.materials.discs.roughness,
+          metalness: car.materials.discs.metalness,
+        },
+        glass: {
+          color: "#" + car.materials.glass.color.getHexString(),
+          roughness: car.materials.glass.roughness,
+          metalness: car.materials.glass.metalness,
+        },
+      },
+      stickers: {
+        leftDoor: car.currSticks.leftDoor.stick,
+        rightDoor: car.currSticks.rightDoor.stick,
+      },
+    };
+
+    let dataStr = JSON.stringify(config);
+
+    let dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+    let exportFileDefaultName = "data.json";
+
+    let linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", exportFileDefaultName);
+    linkElement.click();
+  }
+
+  applyConfig(config: ConfigData) {
+    let carMaterials = this.world.car.materials;
+
+    try {
+      let { general, stickers } = config;
+      //Colors
+      carMaterials.body.color.set(general.body.color);
+      carMaterials.discs.color.set(general.discs.color);
+      carMaterials.glass.color.set(general.glass.color);
+
+      //Roughness
+      carMaterials.body.roughness = general.body.roughness;
+      carMaterials.discs.roughness = general.discs.roughness;
+      carMaterials.glass.roughness = general.glass.roughness;
+
+      //Metalness
+      carMaterials.body.metalness = general.body.metalness;
+      carMaterials.discs.metalness = general.discs.metalness;
+      carMaterials.glass.metalness = general.glass.metalness;
+
+      this.world.car.setStick(stickers.leftDoor, "leftDoor");
+      this.world.car.setStick(stickers.rightDoor, "rightDoor");
+    } catch (err) {}
   }
 }

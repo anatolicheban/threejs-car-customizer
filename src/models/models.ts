@@ -66,3 +66,34 @@ export type SticksNavItem = {
   type: SticksTarget;
   title: string;
 };
+
+export type StickersListItem = {
+  index: number;
+  title: string;
+};
+
+export type SticksBtn = "back" | "next";
+
+export type CameraConfig =
+  | { mode: "view" }
+  | {
+      mode: "general";
+      target: GenTarget;
+    }
+  | {
+      mode: "stickers";
+      target: SticksTarget;
+    };
+
+export type ConfigData = {
+  general: {
+    [key in GenTarget]: {
+      color: string;
+      metalness: number;
+      roughness: number;
+    };
+  };
+  stickers: {
+    [key in SticksTarget]: number | "none";
+  };
+};

@@ -8,10 +8,11 @@ import { Experience } from "../Experience/Experience";
 
 interface Props {
   exp: Experience | null;
-  visible: boolean;
+  active: boolean;
+  update: number;
 }
 
-const GeneralInterface = ({ exp, visible }: Props) => {
+const GeneralInterface = ({ exp, active, update }: Props) => {
   const [currTarget, setCurrTarget] = useState<GenTarget>("body");
 
   const [color, setColor] = useState("#aabbcc");
@@ -38,10 +39,16 @@ const GeneralInterface = ({ exp, visible }: Props) => {
       setMetalness(props.metalness);
       setRoughness(props.roughness);
     }
-  }, [exp, currTarget]);
+  }, [exp, currTarget, update]);
+
+  useEffect(() => {
+    if (active) {
+      exp?.camera.configurate({ mode: "general", target: currTarget });
+    }
+  }, [exp, active, currTarget]);
 
   return (
-    <div className={clsx("general-interface", visible ? null : "hidden")}>
+    <div className={clsx("general-interface", active ? null : "hidden")}>
       <h3 className="title">General</h3>
       <ul className="targets-list">
         {colorTargets.map((item, index) => (

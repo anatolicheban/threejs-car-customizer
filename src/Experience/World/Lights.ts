@@ -1,4 +1,4 @@
-import { AmbientLight, DirectionalLight, DirectionalLightHelper } from "three";
+import { AmbientLight, DirectionalLight } from "three";
 import { Experience } from "../Experience";
 
 export class Lights {

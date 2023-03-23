@@ -1,4 +1,4 @@
-import { GenTarget, NavItem, SticksNavItem } from "../models/models";
+import { GenTarget, NavItem, StickersListItem, SticksNavItem } from "../models/models";
 import { RemoveRedEye, DirectionsCarFilledSharp, AutoFixHigh } from "@mui/icons-material";
 
 export const colorTargets: GenTarget[] = ["body", "discs", "glass"];
@@ -29,5 +29,24 @@ export const stickerTargets: SticksNavItem[] = [
   {
     type: "rightDoor",
     title: "Right Door",
+  },
+];
+
+export const stickersList: StickersListItem[] = [
+  {
+    index: 0,
+    title: "ZeroTwo",
+  },
+  {
+    index: 1,
+    title: "2B",
+  },
+  {
+    index: 2,
+    title: "Mikasa",
+  },
+  {
+    index: 3,
+    title: "Misato",
   },
 ];

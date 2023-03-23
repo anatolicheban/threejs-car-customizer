@@ -1,29 +1,19 @@
 import {
-  ArrowHelper,
-  BoxGeometry,
   BufferGeometry,
   Color,
   Euler,
   Group,
   Material,
   Mesh,
-  MeshNormalMaterial,
   MeshStandardMaterial,
+  Object3D,
   Raycaster,
-  RepeatWrapping,
   Scene,
-  Texture,
   Vector3,
 } from "three";
 import { DecalGeometry } from "three/examples/jsm/geometries/DecalGeometry";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import {
-  GenTarget,
-  MaterialProps,
-  StickersItem,
-  SticksStoreItem,
-  SticksTarget,
-} from "../../models/models";
+import { GenTarget, MaterialProps, SticksTarget } from "../../models/models";
 import { Experience } from "../Experience";
 import { StickersStore } from "../Utils/StickersStore";
 
@@ -39,6 +29,12 @@ export class Car {
   };
   raycaster: Raycaster;
   sticks: StickersStore;
+  currSticks: {
+    [key in SticksTarget]: {
+      stick: number | "none";
+      mesh: Mesh<BufferGeometry, MeshStandardMaterial> | null;
+    };
+  };
 
   constructor() {
     this.experience = new Experience();
@@ -58,11 +54,28 @@ export class Car {
     // this.cast();
     this.setStickersObj(this.model);
 
-    this.setStick(0, "leftDoor");
-    this.setStick(3, "rightDoor");
+    this.currSticks = {
+      leftDoor: {
+        stick: "none",
+        mesh: null,
+      },
+      rightDoor: {
+        stick: "none",
+        mesh: null,
+      },
+    };
   }
 
-  setStick(index: number, target: SticksTarget) {
+  setStick(index: number | "none", target: SticksTarget) {
+    if (index === "none") {
+      if (this.currSticks[target].mesh) {
+        this.scene.remove(this.currSticks[target].mesh as Object3D);
+      }
+      this.currSticks[target].stick = "none";
+      this.currSticks[target].mesh = null;
+      return;
+    }
+
     let { object, items } = this.sticks.store[target];
 
     let material = this.materials.body.clone();
@@ -91,7 +104,14 @@ export class Car {
       material
     );
 
-    this.experience.scene.add(sticker);
+    if (this.currSticks[target].mesh) {
+      this.scene.remove(this.currSticks[target].mesh as Object3D);
+    }
+
+    this.currSticks[target].mesh = sticker;
+    this.currSticks[target].stick = index;
+
+    this.scene.add(this.currSticks[target].mesh as Object3D);
   }
 
   setModel() {
@@ -217,51 +237,5 @@ export class Car {
         this.sticks.setStickersObjects(child as Mesh, "rightDoor");
       }
     });
-  }
-
-  cast() {
-    this.raycaster.set(new Vector3(-2, 0.55, 0.4), new Vector3(1, 0, 0));
-
-    this.experience.scene.add(
-      new ArrowHelper(this.raycaster.ray.direction, this.raycaster.ray.origin)
-    );
-
-    let intersect = this.raycaster.intersectObject(this.model)[0];
-
-    let helper = new Mesh(new BoxGeometry(1, 1, 10), new MeshNormalMaterial());
-    helper.visible = false;
-    this.experience.scene.add(helper);
-    helper.position.copy(intersect.point);
-
-    let normal = intersect.face?.normal.clone();
-    // normal?.transformDirection(this.model.matrixWorld);
-    normal?.add(intersect.point);
-    helper.lookAt(normal as Vector3);
-
-    let params = {
-      position: new Vector3().copy(intersect.point),
-      orientation: new Euler().copy(helper.rotation),
-      size: new Vector3(0.85, 0.85, 0.85),
-    };
-
-    let texture = this.experience.resources.items.zeroTwo as Texture;
-    texture.wrapS = texture.wrapT = RepeatWrapping;
-    texture.repeat.set(1, 1);
-    // texture.repeat.x = -1;
-    let material = this.materials.body.clone();
-    material.map = texture;
-    material.polygonOffset = true;
-    material.polygonOffsetFactor = -10;
-    material.transparent = true;
-    material.color.set("#fff");
-
-    let sticker = new Mesh(
-      new DecalGeometry(intersect.object as Mesh, params.position, params.orientation, params.size),
-      material
-    );
-
-    console.log(params);
-
-    this.experience.scene.add(sticker);
   }
 }

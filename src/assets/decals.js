@@ -267,3 +267,49 @@ function animate() {
 
 }
 
+// cast() {
+//   this.raycaster.set(new Vector3(-2, 0.55, 0.4), new Vector3(1, 0, 0));
+
+//   this.experience.scene.add(
+//     new ArrowHelper(this.raycaster.ray.direction, this.raycaster.ray.origin)
+//   );
+
+//   let intersect = this.raycaster.intersectObject(this.model)[0];
+
+//   let helper = new Mesh(new BoxGeometry(1, 1, 10), new MeshNormalMaterial());
+//   helper.visible = false;
+//   this.experience.scene.add(helper);
+//   helper.position.copy(intersect.point);
+
+//   let normal = intersect.face?.normal.clone();
+//   // normal?.transformDirection(this.model.matrixWorld);
+//   normal?.add(intersect.point);
+//   helper.lookAt(normal as Vector3);
+
+//   let params = {
+//     position: new Vector3().copy(intersect.point),
+//     orientation: new Euler().copy(helper.rotation),
+//     size: new Vector3(0.85, 0.85, 0.85),
+//   };
+
+//   let texture = this.experience.resources.items.zeroTwo as Texture;
+//   texture.wrapS = texture.wrapT = RepeatWrapping;
+//   texture.repeat.set(1, 1);
+//   // texture.repeat.x = -1;
+//   let material = this.materials.body.clone();
+//   material.map = texture;
+//   material.polygonOffset = true;
+//   material.polygonOffsetFactor = -10;
+//   material.transparent = true;
+//   material.color.set("#fff");
+
+//   let sticker = new Mesh(
+//     new DecalGeometry(intersect.object as Mesh, params.position, params.orientation, params.size),
+//     material
+//   );
+
+//   console.log(params);
+
+//   this.experience.scene.add(sticker);
+// }
+
