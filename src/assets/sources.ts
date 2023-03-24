@@ -29,7 +29,7 @@ export const sources: ResourceItem[] = [
   {
     name: "car",
     type: "gltfModel",
-    path: "./car/gltf.glb",
+    path: "./car/gltf-draco.glb",
   },
   {
     name: "enviroment",

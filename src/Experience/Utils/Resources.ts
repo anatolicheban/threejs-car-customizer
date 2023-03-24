@@ -11,8 +11,9 @@ import { EventEmitter } from "./EventEmitter";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { LoadedResource, ResourceItem } from "../../models/models";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
-export class Resources extends EventEmitter<{ ready: void }> {
+export class Resources extends EventEmitter<{ ready: void; progress: number }> {
   sources: ResourceItem[];
   items: LoadedResource;
   toLoad: number;
@@ -48,6 +49,11 @@ export class Resources extends EventEmitter<{ ready: void }> {
       textureLoader: new TextureLoader(),
       objLoader: new OBJLoader(),
     };
+
+    let draco = new DRACOLoader();
+    draco.setDecoderPath("./draco/");
+
+    this.loaders.gltfLoader.setDRACOLoader(draco);
   }
 
   startLoading() {
@@ -84,6 +90,9 @@ export class Resources extends EventEmitter<{ ready: void }> {
 
     if (this.loaded === this.toLoad) {
       this.emit("ready");
+      return;
     }
+
+    this.emit("progress", +((this.loaded / this.toLoad) * 100).toFixed(2));
   }
 }

@@ -195,3 +195,35 @@ canvas
       padding: 0 .5rem
       border-radius: .25rem
       text-align: center
+
+.preloader
+  position: absolute
+  z-index: 10
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  background-color: $gray
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: 1.2s
+  pointer-events: none
+  &-content
+    display: flex
+    align-items: center
+    flex-direction: column
+    gap: .25rem
+    span
+      width: 13rem
+      height: 1rem
+      border: 1px solid $red
+      .progress
+        transition: .3s
+        margin: 0.1rem
+        background-color: $red
+        height: 80%
+        width: 60%
+    p
+      color: $red
+      font-weight: 500

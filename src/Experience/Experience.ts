@@ -102,6 +102,7 @@ export class Experience {
 
     try {
       let { general, stickers } = config;
+
       //Colors
       carMaterials.body.color.set(general.body.color);
       carMaterials.discs.color.set(general.discs.color);

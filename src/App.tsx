@@ -3,6 +3,7 @@ import { useIdleTimer } from "react-idle-timer";
 import Canvas from "./components/Canvas";
 import GeneralInterface from "./components/GeneralInterface";
 import Navigation from "./components/Navigation";
+import Preloader from "./components/Preloader";
 import StickersInterface from "./components/StickersInterface";
 import { Experience } from "./Experience/Experience";
 import { ConfigData, EditMode } from "./models/models";
@@ -11,13 +12,20 @@ function App() {
   let [experience, setExperience] = useState<Experience | null>(null);
   let [editMode, setEditMode] = useState<EditMode>("view");
   let [update, setUpdate] = useState(0);
+  let [loading, setLoading] = useState<number | "ready">(0);
 
   let canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     let exp = new Experience(canvasRef?.current);
 
+    exp.resources.addHandler("progress", (value) => {
+      setLoading(value as number);
+    });
+
     exp.resources.addHandler("ready", () => {
+      setLoading("ready");
+
       setExperience(exp);
     });
   }, []);
@@ -57,6 +65,7 @@ function App() {
 
   return (
     <>
+      <Preloader progress={loading} />
       <Canvas canvasRef={canvasRef} />
       <Navigation
         onScreenShot={screenShotHandler}
