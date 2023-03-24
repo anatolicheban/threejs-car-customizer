@@ -2,7 +2,9 @@ import { Canvas } from "../models/models";
 import { Experience } from "./Experience";
 import { Sizes } from "./Utils/Sizes";
 import * as POSTPROCESSING from "postprocessing";
-import * as EFFECTS from "../assets/realism-effects/dist/";
+// import * as EFFECTS from "../assets/realism-effects/dist";
+// @ts-ignore
+import * as EFFECTS from "realism-effects";
 import {
   CineonToneMapping,
   PCFSoftShadowMap,
